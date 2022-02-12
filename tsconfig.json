@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "declaration": true,
+        "incremental": true,
+        "inlineSources": true,
+        "module": "commonjs",
+        "noImplicitReturns": true,
+        "noImplicitOverride": true,
+        "outDir": "build",
+        "paths": {
+            "!/*": [ "./*" ],
+            "#*": [ "./src/core/*" ]
+        },
+        "removeComments": true,
+        "sourceMap": true,
+        "strict": true,
+        "target": "es6",
+        "plugins": [
+            { "transform": "typescript-transform-paths" },
+            { "transform": "typescript-transform-paths", "afterDeclarations": true }
+        ]
+    },
+    "include": [
+        ".eslintrc.js",
+        "jest.config.js",
+        "**/*.ts"
+    ],
+    "exclude": [ "build", "node_modules" ]
+}
