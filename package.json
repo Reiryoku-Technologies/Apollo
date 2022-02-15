@@ -1,11 +1,11 @@
 {
-    "name": "@reiryoku/macropolis",
+    "name": "@reiryoku/apollo",
     "version": "1.0.0",
     "description": "A JavaScript macroeconomic data aggregator",
     "license": "MIT",
-    "homepage": "https://github.com/Reiryoku-Technologies/Macropolis",
+    "homepage": "https://github.com/Reiryoku-Technologies/Apollo",
     "bugs": {
-        "url": "https://github.com/Reiryoku-Technologies/Macropolis/issues"
+        "url": "https://github.com/Reiryoku-Technologies/Apollo/issues"
     },
     "author": {
         "name": "Vasile Pește / Reiryoku Technologies",
@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Reiryoku-Technologies/Macropolis.git"
+        "url": "https://github.com/Reiryoku-Technologies/Apollo.git"
     },
     "scripts": {
         "lint": "eslint . --ext .ts,.js",

@@ -18,16 +18,16 @@ export abstract class EconomicFactor {
         return [ ...this.#affectedAssets, ];
     }
 
-    public async getLastDeclaration (): Promise<EconomicFactorStatement> {
-        const declarations: EconomicFactorStatement[] = await this.getDeclarations();
+    public async getLastStatement (): Promise<EconomicFactorStatement> {
+        const declarations: EconomicFactorStatement[] = await this.getStatements();
         const length: number = declarations.length;
 
         return declarations[length - 1] as EconomicFactorStatement;
     }
 
-    public abstract getDeclarations (): Promise<EconomicFactorStatement[]>;
+    public abstract getStatements (): Promise<EconomicFactorStatement[]>;
 
-    public abstract getPendingDeclarations (): Promise<EconomicFactorStatement[]>;
+    public abstract getPendingStatement (): Promise<EconomicFactorStatement[]>;
 
     static #installedFactors: Map<string, EconomicFactor> = new Map();
 

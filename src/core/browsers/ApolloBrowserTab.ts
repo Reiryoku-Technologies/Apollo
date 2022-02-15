@@ -1,23 +1,21 @@
 import * as Puppeteer from "puppeteer";
-import { IMidaBrowser } from "#browsers/IMidaBrowser";
-import { IMidaBrowserTab } from "#browsers/IMidaBrowserTab";
-import { ChromiumBrowser } from "#browsers/chromium/ChromiumBrowser";
+import { ApolloBrowser } from "#browsers/ApolloBrowser";
 
-export class ChromiumBrowserTab implements IMidaBrowserTab {
-    private readonly _chromiumBrowser: ChromiumBrowser;
+export class ApolloBrowserTab {
+    private readonly _chromiumBrowser: ApolloBrowser;
     private readonly _puppeteerPage: Puppeteer.Page;
 
     private readonly _requestListeners: Function[];
     private _isRequestInterceptionEnabled: boolean;
 
-    public constructor (chromiumBrowser: ChromiumBrowser, puppeteerPage: Puppeteer.Page) {
+    public constructor (chromiumBrowser: ApolloBrowser, puppeteerPage: Puppeteer.Page) {
         this._chromiumBrowser = chromiumBrowser;
         this._puppeteerPage = puppeteerPage;
         this._requestListeners = [];
         this._isRequestInterceptionEnabled = false;
     }
 
-    public get browser (): IMidaBrowser {
+    public get browser (): ApolloBrowser {
         return this._chromiumBrowser;
     }
 

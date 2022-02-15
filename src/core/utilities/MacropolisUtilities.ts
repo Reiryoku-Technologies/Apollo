@@ -1,10 +1,10 @@
 // Used to fetch the latest statement data of an economic factor from a webpage.
 // At this time only www.investing.com is supported.
 import { IMidaBrowserTab } from "#browsers/IMidaBrowserTab";
-import { ChromiumBrowser } from "#browsers/chromium/ChromiumBrowser";
+import { ApolloBrowser } from "#browsers/ChromiumBrowser";
 
 async function fetchLatestEconomicStatementData (uri: string): Promise<any> {
-    const browserTab: IMidaBrowserTab = await ChromiumBrowser.openTab();
+    const browserTab: IMidaBrowserTab = await ApolloBrowser.openTab();
 const historyTabSelector: string = ".historyTab";
 
 await browserTab.goto(uri);

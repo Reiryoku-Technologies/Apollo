@@ -1,10 +1,9 @@
 import * as Path from "path";
 import * as Puppeteer from "puppeteer";
-import { IMidaBrowser } from "#browsers/IMidaBrowser";
-import { ChromiumBrowserTab } from "#browsers/chromium/ChromiumBrowserTab";
+import { ApolloBrowserTab } from "#browsers/ApolloBrowserTab";
 
-export class ChromiumBrowser implements IMidaBrowser {
-    private static readonly _shared: ChromiumBrowser = new ChromiumBrowser();
+export class ApolloBrowser {
+    private static readonly _shared: ApolloBrowser = new ApolloBrowser();
 
     private _puppeteerBrowser: Puppeteer.Browser | null;
     private _pid: number;
@@ -44,18 +43,19 @@ export class ChromiumBrowser implements IMidaBrowser {
                 ignoreHTTPSErrors: true,
                 args: browserArguments,
             });
+            // @ts-ignore
             this._pid = this._puppeteerBrowser.process().pid;
 
             await this.closeTabs();
         }
     }
 
-    public async openTab (): Promise<ChromiumBrowserTab> {
+    public async openTab (): Promise<ApolloBrowserTab> {
         if (!this._puppeteerBrowser) {
             throw new Error();
         }
 
-        return new ChromiumBrowserTab(this, await this._puppeteerBrowser.newPage());
+        return new ApolloBrowserTab(this, await this._puppeteerBrowser.newPage());
     }
 
     public async closeTabs (): Promise<void> {
@@ -73,7 +73,7 @@ export class ChromiumBrowser implements IMidaBrowser {
         }
     }
 
-    public static async openTab (): Promise<ChromiumBrowserTab> {
+    public static async openTab (): Promise<ApolloBrowserTab> {
         if (!this._shared.opened) {
             await this._shared.open();
         }
