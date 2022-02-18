@@ -1,6 +1,6 @@
 [
     {
-        "name": "US/NonFarmPayrolls/MoM",
+        "id": "US/NonFarmPayrolls/MoM",
         "sources": [
             {
                 "parser": "Investing.com",
@@ -11,7 +11,7 @@
         ]
     },
     {
-        "name": "US/CrudeOilInventories/WoW",
+        "id": "US/CrudeOilInventories/WoW",
         "sources": [
             {
                 "parser": "Investing.com",
@@ -22,7 +22,7 @@
         ]
     },
     {
-        "name": "Eurozone/CPI/YoY",
+        "id": "Eurozone/CPI/YoY",
         "sources": [
             {
                 "parser": "Investing.com",
@@ -33,7 +33,7 @@
         ]
     },
     {
-        "name": "Italy/CPI/YoY",
+        "id": "Italy/CPI/YoY",
         "sources": [
             {
                 "parser": "Investing.com",
@@ -44,7 +44,7 @@
         ]
     },
     {
-        "name": "Canada/InterestRate/MoM",
+        "id": "Canada/InterestRate/MoM",
         "sources": [
             {
                 "parser": "Investing.com",
@@ -55,7 +55,7 @@
         ]
     },
     {
-        "name": "Japan/CPI/YoY",
+        "id": "Japan/CPI/YoY",
         "sources": [
             {
                 "parser": "Investing.com",

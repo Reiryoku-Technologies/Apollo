@@ -4,7 +4,7 @@
 ```javascript
 const { ApolloEconomicFactor } = require("@reiryoku/apollo");
 
-const japanInflationRate = ApolloEconomicFactor.get("Japan/CPI/YoY");
+const japanInflationRate = ApolloEconomicFactor.getById("Japan/CPI/YoY");
 const lastDeclaration = await japanInflationRate.getLastDeclaration();
 
 console.log(`Japan inflation rate is ${lastDeclaration.actualValue}%`);
