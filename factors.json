@@ -1,0 +1,11 @@
+[
+    {
+        "name": "US::NonFarmPayrolls",
+        "sources": [
+            {
+                "parser": "investing.com",
+                "uri": "https://www.investing.com/economic-calendar/nonfarm-payrolls-227"
+            }
+        ]
+    }
+]

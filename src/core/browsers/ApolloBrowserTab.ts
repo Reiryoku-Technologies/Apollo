@@ -2,42 +2,37 @@ import * as Puppeteer from "puppeteer";
 import { ApolloBrowser } from "#browsers/ApolloBrowser";
 
 export class ApolloBrowserTab {
-    private readonly _chromiumBrowser: ApolloBrowser;
-    private readonly _puppeteerPage: Puppeteer.Page;
+    readonly #browser: ApolloBrowser;
+    readonly #puppeteerPage: Puppeteer.Page;
 
-    private readonly _requestListeners: Function[];
-    private _isRequestInterceptionEnabled: boolean;
-
-    public constructor (chromiumBrowser: ApolloBrowser, puppeteerPage: Puppeteer.Page) {
-        this._chromiumBrowser = chromiumBrowser;
-        this._puppeteerPage = puppeteerPage;
-        this._requestListeners = [];
-        this._isRequestInterceptionEnabled = false;
+    public constructor (browser: ApolloBrowser, puppeteerPage: Puppeteer.Page) {
+        this.#browser = browser;
+        this.#puppeteerPage = puppeteerPage;
     }
 
     public get browser (): ApolloBrowser {
-        return this._chromiumBrowser;
+        return this.#browser;
     }
 
     public async setUserAgent (userAgent: string): Promise<void> {
-        return this._puppeteerPage.setUserAgent(userAgent);
+        return this.#puppeteerPage.setUserAgent(userAgent);
     }
 
     public async goto (uri: string): Promise<void> {
-        const response: any = await this._puppeteerPage.goto(uri, { timeout: 60000, });
+        const response: any = await this.#puppeteerPage.goto(uri, { timeout: 60000, });
 
         if (!response) {
             throw new Error();
         }
     }
 
-    public async evaluate (text: string): Promise<any> {
-        return this._puppeteerPage.evaluate(text);
+    public async evaluate (entity: string | (() => unknown)): Promise<any> {
+        return this.#puppeteerPage.evaluate(entity);
     }
 
     public async focus (selector: string): Promise<boolean> {
         try {
-            await this._puppeteerPage.focus(selector);
+            await this.#puppeteerPage.focus(selector);
         }
         catch (error) {
             console.log(error);
@@ -50,7 +45,7 @@ export class ApolloBrowserTab {
 
     public async type (selector: string, text: string): Promise<boolean> {
         try {
-            await this._puppeteerPage.type(selector, text);
+            await this.#puppeteerPage.type(selector, text);
         }
         catch (error) {
             console.log(error);
@@ -63,7 +58,7 @@ export class ApolloBrowserTab {
 
     public async click (selector: string, count: number = 1): Promise<boolean> {
         try {
-            await this._puppeteerPage.click(selector, {
+            await this.#puppeteerPage.click(selector, {
                 clickCount: count,
             });
         }
@@ -78,36 +73,16 @@ export class ApolloBrowserTab {
 
     public async waitForSelector (selector: string): Promise<void> {
         try {
-            await this._puppeteerPage.waitForSelector(selector);
+            await this.#puppeteerPage.waitForSelector(selector);
         }
         catch (error) {
             console.log(error);
         }
     }
 
-    public async addRequestListener (listener: Function): Promise<void> {
-        if (!this._isRequestInterceptionEnabled) {
-            await this._puppeteerPage.setRequestInterception(true);
-
-            this._puppeteerPage.on("request", (request: any) => {
-                for (const listener of this._requestListeners) {
-                    listener({
-                        uri: request.url(),
-                    });
-                }
-
-                request.continue();
-            });
-
-            this._isRequestInterceptionEnabled = true;
-        }
-
-        this._requestListeners.push(listener);
-    }
-
     public async close (): Promise<void> {
-        if (this._puppeteerPage) {
-            await this._puppeteerPage.close();
+        if (this.#puppeteerPage) {
+            await this.#puppeteerPage.close();
         }
     }
 }

@@ -3,26 +3,26 @@ import * as Puppeteer from "puppeteer";
 import { ApolloBrowserTab } from "#browsers/ApolloBrowserTab";
 
 export class ApolloBrowser {
-    private static readonly _shared: ApolloBrowser = new ApolloBrowser();
+    static readonly #shared: ApolloBrowser = new ApolloBrowser();
 
-    private _puppeteerBrowser: Puppeteer.Browser | null;
-    private _pid: number;
+    #puppeteerBrowser: Puppeteer.Browser | null;
+    #pid: number;
 
     public constructor () {
-        this._puppeteerBrowser = null;
-        this._pid = -1;
+        this.#puppeteerBrowser = null;
+        this.#pid = -1;
     }
 
     public get pid (): number {
-        return this._pid;
+        return this.#pid;
     }
 
-    public get opened (): boolean {
+    public get isOpen (): boolean {
         return this.pid !== -1;
     }
 
     public async open (user?: string): Promise<void> {
-        if (!this._puppeteerBrowser) {
+        if (!this.#puppeteerBrowser) {
             const browserArguments: string[] = [
                 "--no-sandbox",
                 "--disable-gl-drawing-for-tests",
@@ -37,47 +37,48 @@ export class ApolloBrowser {
                 browserArguments.push(`--user-data-dir=${Path.resolve(__dirname, user)}`);
             }
 
-            this._puppeteerBrowser = await Puppeteer.launch({
+            this.#puppeteerBrowser = await Puppeteer.launch({
                 headless: true,
                 devtools: false,
                 ignoreHTTPSErrors: true,
                 args: browserArguments,
             });
             // @ts-ignore
-            this._pid = this._puppeteerBrowser.process().pid;
+            this.#pid = this.#puppeteerBrowser.process().pid;
 
             await this.closeTabs();
         }
     }
 
     public async openTab (): Promise<ApolloBrowserTab> {
-        if (!this._puppeteerBrowser) {
+        if (!this.#puppeteerBrowser) {
             throw new Error();
         }
 
-        return new ApolloBrowserTab(this, await this._puppeteerBrowser.newPage());
+        return new ApolloBrowserTab(this, await this.#puppeteerBrowser.newPage());
     }
 
     public async closeTabs (): Promise<void> {
-        if (!this._puppeteerBrowser) {
+        if (!this.#puppeteerBrowser) {
             throw new Error();
         }
 
-        await Promise.all((await this._puppeteerBrowser.pages()).map((tab: Puppeteer.Page): Promise<any> => tab.close()));
+        await Promise.all((await this.#puppeteerBrowser.pages()).map((tab: Puppeteer.Page): unknown => tab.close()));
     }
 
     public async close (): Promise<void> {
-        if (this._puppeteerBrowser) {
-            await this._puppeteerBrowser.close();
-            this._pid = -1;
+        if (this.#puppeteerBrowser) {
+            await this.#puppeteerBrowser.close();
+
+            this.#pid = -1;
         }
     }
 
     public static async openTab (): Promise<ApolloBrowserTab> {
-        if (!this._shared.opened) {
-            await this._shared.open();
+        if (!this.#shared.isOpen) {
+            await this.#shared.open();
         }
 
-        return this._shared.openTab();
+        return this.#shared.openTab();
     }
 }
