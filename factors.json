@@ -53,5 +53,16 @@
                 }
             }
         ]
+    },
+    {
+        "name": "Japan/CPI/YoY",
+        "sources": [
+            {
+                "parser": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/national-cpi-992"
+                }
+            }
+        ]
     }
 ]
