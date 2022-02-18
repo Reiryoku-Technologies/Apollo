@@ -27,6 +27,4 @@ usNonFarmPayrolls.on("statement", (statement) => {
 | Canada Interest Rate CPI (MoM)        | Canada/InterestRate/MoM       | Percentage                | Investing.com         |
 
 ### Statements frequency
-`WoW = Week over Week`
-`MoM = Month over Month`
-`YoY = Year over Year`
+**`WoW = Week over Week`**, **`MoM = Month over Month`**, **`YoY = Year over Year`**
