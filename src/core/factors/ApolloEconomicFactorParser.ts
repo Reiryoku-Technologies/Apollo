@@ -1,6 +1,6 @@
 import { ApolloBrowserTab } from "#browsers/ApolloBrowserTab";
 import { ApolloBrowser } from "#browsers/ApolloBrowser";
-import { ApolloEconomicFactorStatement } from "#factors/ApolloEconomicFactorStatement";
+import { ApolloEconomicFactorDeclaration } from "#factors/ApolloEconomicFactorDeclaration";
 
 export class ApolloEconomicFactorParser {
     static readonly #parsers: Map<string, (...parameters: any[]) => unknown> = new Map();
@@ -24,59 +24,57 @@ const { addParser, } = ApolloEconomicFactorParser;
 // <parsers>
 // Parser for Investing.com
 ((): void => {
-    // eslint-disable-next-line max-lines-per-function, id-length
-    async function getStatements (uri: string): Promise<any> {
+    // eslint-disable-next-line max-lines-per-function
+    async function getDeclarations (uri: string): Promise<any> {
         const historyTabSelector: string = ".historyTab";
         const browserTab: ApolloBrowserTab = await ApolloBrowser.openTab();
-        const statements: ApolloEconomicFactorStatement[] = [];
+        const declarations: ApolloEconomicFactorDeclaration[] = [];
 
         await browserTab.goto(uri);
         await browserTab.waitForSelector(historyTabSelector);
 
-        const plainStatements: any[] = await browserTab.evaluate((): any[] => {
-            const statementsSelector: string = ".historyTab > table > tbody > tr";
-            const plainStatements: any[] = [];
+        const plainDeclarations: any[] = await browserTab.evaluate((): any[] => {
+            const declarationsSelector: string = ".historyTab > table > tbody > tr";
+            const plainDeclarations: any[] = [];
 
-            for (const statementNode of window.document.querySelectorAll(statementsSelector)) {
-                const plainDate: string = statementNode.getAttribute("event_timestamp") as string;
-                const statementNodes: HTMLElement[] = [ ...statementNode.querySelectorAll("td"), ];
+            for (const declarationNode of window.document.querySelectorAll(declarationsSelector)) {
+                const plainDate: string = declarationNode.getAttribute("event_timestamp") as string;
+                const declarationNodes: HTMLElement[] = [ ...declarationNode.querySelectorAll("td"), ];
 
-                plainStatements.push({
+                plainDeclarations.push({
                     plainDate,
-                    plainActualValue: statementNodes[2].innerText.trim(),
-                    plainForecastValue: statementNodes[3].innerText.trim(),
+                    plainActualValue: declarationNodes[2].innerText.trim(),
+                    plainForecastValue: declarationNodes[3].innerText.trim(),
                 });
             }
 
-            return plainStatements;
+            return plainDeclarations;
         });
 
-        console.log(plainStatements);
+        for (const plainDeclaration of plainDeclarations) {
+            const plainActualValue: string = plainDeclaration.plainActualValue;
+            const plainForecastValue: string = plainDeclaration.plainForecastValue;
 
-        for (const plainStatement of plainStatements) {
-            const plainActualValue: string = plainStatement.plainActualValue;
-            const plainForecastValue: string = plainStatement.plainForecastValue;
-
-            statements.push({
-                date: normalizeStatementDate(plainStatement.plainDate),
-                actualValue: plainActualValue ? normalizeStatementValue(plainStatement.plainActualValue) : undefined,
-                forecastValue: plainForecastValue ? normalizeStatementValue(plainStatement.plainForecastValue) : undefined,
+            declarations.push({
+                date: normalizeDeclarationDate(plainDeclaration.plainDate),
+                actualValue: plainActualValue ? normalizeDeclarationValue(plainDeclaration.plainActualValue) : undefined,
+                forecastValue: plainForecastValue ? normalizeDeclarationValue(plainDeclaration.plainForecastValue) : undefined,
             });
         }
 
-        statements.sort((a: ApolloEconomicFactorStatement, b: ApolloEconomicFactorStatement): number => a.date.getTime() - b.date.getTime());
+        declarations.sort((a: ApolloEconomicFactorDeclaration, b: ApolloEconomicFactorDeclaration): number => a.date.getTime() - b.date.getTime());
 
-        for (let i: number = 0, length: number = statements.length; i < length; ++i) {
-            const statement: ApolloEconomicFactorStatement = statements[i];
-            const previousStatement: ApolloEconomicFactorStatement | undefined = statements[i - 1];
-            const nextStatement: ApolloEconomicFactorStatement | undefined = statements[i + 1];
+        for (let i: number = 0, length: number = declarations.length; i < length; ++i) {
+            const declaration: ApolloEconomicFactorDeclaration = declarations[i];
+            const previousDeclaration: ApolloEconomicFactorDeclaration | undefined = declarations[i - 1];
+            const nextDeclaration: ApolloEconomicFactorDeclaration | undefined = declarations[i + 1];
 
-            if (previousStatement) {
-                statement.previousStatement = previousStatement;
+            if (previousDeclaration) {
+                declaration.previousDeclaration = previousDeclaration;
             }
 
-            if (nextStatement) {
-                statement.nextStatement = nextStatement;
+            if (nextDeclaration) {
+                declaration.nextDeclaration = nextDeclaration;
             }
         }
 
@@ -87,11 +85,11 @@ const { addParser, } = ApolloEconomicFactorParser;
             // Silence is golden
         }
 
-        return statements;
+        return declarations;
     }
 
-    // Used to convert a statement value to a native Number type
-    function normalizeStatementValue (value: string): number {
+    // Used to convert a declaration value to a native Number type
+    function normalizeDeclarationValue (value: string): number {
         let normalizedValue: number = Number(value.replace(",", "."));
 
         if (Number.isFinite(normalizedValue)) {
@@ -127,8 +125,8 @@ const { addParser, } = ApolloEconomicFactorParser;
         return normalizedValue;
     }
 
-    // Used to convert the statement date to a native Date type
-    function normalizeStatementDate (plainDate: string): Date {
+    // Used to convert a declaration date to a native Date type
+    function normalizeDeclarationDate (plainDate: string): Date {
         const parts: string[] = plainDate.trim().split(" ");
         const leftParts: string[] = parts[0].split("-");
         const rightParts: string[] = parts[1].split(":");
@@ -139,6 +137,6 @@ const { addParser, } = ApolloEconomicFactorParser;
         ));
     }
 
-    addParser("Investing.com", getStatements);
+    addParser("Investing.com", getDeclarations);
 })();
 // </parsers>

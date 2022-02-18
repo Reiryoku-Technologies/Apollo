@@ -11,5 +11,5 @@ export { Apollo };
 
 export { ApolloEconomicFactor } from "#factors/ApolloEconomicFactor";
 export { ApolloEconomicFactorParameters } from "#factors/ApolloEconomicFactorParameters";
-export { ApolloEconomicFactorStatement } from "#factors/ApolloEconomicFactorStatement";
+export { ApolloEconomicFactorDeclaration } from "#factors/ApolloEconomicFactorStatement";
 // </public-api>
