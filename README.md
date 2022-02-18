@@ -22,6 +22,6 @@ console.log(`The last declaration was made on ${lastDeclaration.date}`);
 | Canada Interest Rate CPI (MoM)        | Canada/InterestRate/MoM       | Percentage                | Investing.com         |
 
 ### Declarations frequency
-- `WoW = Week over Week`
-- `MoM = Month over Month`
-- `YoY = Year over Year`
+- WoW means week over week
+- MoM means month over month
+- YoY means year over year
