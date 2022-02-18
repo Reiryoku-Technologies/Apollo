@@ -1,5 +1,8 @@
+import { ApolloEconomicFactor } from "#factors/ApolloEconomicFactor";
+
 export type ApolloEconomicFactorStatement = {
-    timestamp: number;
+    date: Date;
+    // factor: ApolloEconomicFactor;
     previousStatement?: ApolloEconomicFactorStatement;
     nextStatement?: ApolloEconomicFactorStatement;
     actualValue?: number;

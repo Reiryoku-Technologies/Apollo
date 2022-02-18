@@ -11,7 +11,7 @@ console.log("This data has been released on " + new Date(lastStatement.timestamp
 console.log("Actual value => " + lastStatement.actualValue);
 console.log("Forecast value => " + lastStatement.forecastValue);
 
-// Triggered when a new declaration is made
+// Triggered when a new statement is made
 usNonFarmPayrolls.on("statement", (statement) => {
     console.log(statement.actualValue);
 });

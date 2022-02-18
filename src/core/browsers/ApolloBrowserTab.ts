@@ -19,7 +19,10 @@ export class ApolloBrowserTab {
     }
 
     public async goto (uri: string): Promise<void> {
-        const response: any = await this.#puppeteerPage.goto(uri, { timeout: 60000, });
+        const response: any = await this.#puppeteerPage.goto(uri, {
+            waitUntil: "domcontentloaded",
+            timeout: 60000,
+        });
 
         if (!response) {
             throw new Error();

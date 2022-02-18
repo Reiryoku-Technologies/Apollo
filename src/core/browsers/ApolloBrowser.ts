@@ -55,7 +55,27 @@ export class ApolloBrowser {
             throw new Error();
         }
 
-        return new ApolloBrowserTab(this, await this.#puppeteerBrowser.newPage());
+        const page: Puppeteer.Page = await this.#puppeteerBrowser.newPage();
+
+        await page.setRequestInterception(true);
+
+        page.on("request", (request) => {
+            switch (request.resourceType().toUpperCase()) {
+                case "STYLESHEET":
+                case "FONT":
+                case "IMAGE":
+                case "MEDIA": {
+                    request.abort();
+
+                    break;
+                }
+                default: {
+                    request.continue();
+                }
+            }
+        });
+
+        return new ApolloBrowserTab(this, page);
     }
 
     public async closeTabs (): Promise<void> {

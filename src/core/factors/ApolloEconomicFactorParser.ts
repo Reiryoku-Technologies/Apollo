@@ -1,5 +1,6 @@
 import { ApolloBrowserTab } from "#browsers/ApolloBrowserTab";
 import { ApolloBrowser } from "#browsers/ApolloBrowser";
+import { ApolloEconomicFactorStatement } from "#factors/ApolloEconomicFactorStatement";
 
 export class ApolloEconomicFactorParser {
     static readonly #parsers: Map<string, (...parameters: any[]) => unknown> = new Map();
@@ -11,72 +12,73 @@ export class ApolloEconomicFactorParser {
     public static addParser (name: string, procedure: (...parameters: any[]) => unknown): void {
         ApolloEconomicFactorParser.#parsers.set(name, procedure);
     }
+
+    public static async useParser (name: string, uri: string): Promise<any> {
+        // @ts-ignore
+        return ApolloEconomicFactorParser.#parsers.get(name)(uri);
+    }
 }
 
 const { addParser, } = ApolloEconomicFactorParser;
 
 // <parsers>
-// Parser for investing.com
+// Parser for Investing.com
 ((): void => {
     // eslint-disable-next-line max-lines-per-function, id-length
     async function getStatements (uri: string): Promise<any> {
-        const browserTab: ApolloBrowserTab = await ApolloBrowser.openTab();
         const historyTabSelector: string = ".historyTab";
+        const browserTab: ApolloBrowserTab = await ApolloBrowser.openTab();
+        const statements: ApolloEconomicFactorStatement[] = [];
 
         await browserTab.goto(uri);
         await browserTab.waitForSelector(historyTabSelector);
 
-        const statementData: any = await browserTab.evaluate((): any => {
-            const latestStatementSelector: any = ".historyTab > table > tbody > tr:first-child > td";
-            const latestStatementNodes: any[] = [ ...window.document.querySelectorAll(latestStatementSelector), ];
+        const plainStatements: any[] = await browserTab.evaluate((): any[] => {
+            const statementsSelector: string = ".historyTab > table > tbody > tr";
+            const plainStatements: any[] = [];
 
-            const statement = {
-                date: `${latestStatementNodes[0].innerText} ${latestStatementNodes[1].innerText}`.trim(),
-                nextStatementDate: null,
-                actual: latestStatementNodes[2].innerText.trim(),
-                forecast: latestStatementNodes[3].innerText.trim(),
-                previous: latestStatementNodes[4].innerText.trim(),
-            };
+            for (const statementNode of window.document.querySelectorAll(statementsSelector)) {
+                const plainDate: string = statementNode.getAttribute("event_timestamp") as string;
+                const statementNodes: HTMLElement[] = [ ...statementNode.querySelectorAll("td"), ];
 
-            let statementIndex = 2;
-
-            while (!statement.actual) {
-                // @ts-ignore
-                statement.nextStatementDate = statement.date;
-
-                const previousStatementSelector = `.historyTab > table > tbody > tr:nth-child(${statementIndex}) > td`;
-                const previousStatementNodes: any[] = [ ...window.document.querySelectorAll(previousStatementSelector), ];
-
-                statement.date = `${previousStatementNodes[0].innerText} ${previousStatementNodes[1].innerText}`.trim();
-                statement.actual = previousStatementNodes[2].innerText.trim();
-                statement.forecast = previousStatementNodes[3].innerText.trim();
-
-                ++statementIndex;
+                plainStatements.push({
+                    plainDate,
+                    plainActualValue: statementNodes[2].innerText.trim(),
+                    plainForecastValue: statementNodes[3].innerText.trim(),
+                });
             }
 
-            return statement;
+            return plainStatements;
         });
-        const sanitizedStatementData: any = {};
 
-        sanitizedStatementData.date = new Date(statementData.date);
+        console.log(plainStatements);
 
-        // New York time.
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        sanitizedStatementData.date.setTime(sanitizedStatementData.date.getTime() + 6 * 60 * 60 * 1000);
+        for (const plainStatement of plainStatements) {
+            const plainActualValue: string = plainStatement.plainActualValue;
+            const plainForecastValue: string = plainStatement.plainForecastValue;
 
-        if (sanitizedStatementData.nextStatementDate) {
-            sanitizedStatementData.nextStatementDate = new Date(statementData.nextStatementDate);
-
-            // New York time.
-            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-            sanitizedStatementData.nextStatementDate.setTime(sanitizedStatementData.nextStatementDate.getTime() + 6 * 60 * 60 * 1000);
-        }
-        else {
-            delete sanitizedStatementData.nextStatementDate;
+            statements.push({
+                date: normalizeStatementDate(plainStatement.plainDate),
+                actualValue: plainActualValue ? normalizeStatementValue(plainStatement.plainActualValue) : undefined,
+                forecastValue: plainForecastValue ? normalizeStatementValue(plainStatement.plainForecastValue) : undefined,
+            });
         }
 
-        sanitizedStatementData.actual = normalizeStatementValue(statementData.actual);
-        sanitizedStatementData.forecast = normalizeStatementValue(statementData.forecast);
+        statements.sort((a: ApolloEconomicFactorStatement, b: ApolloEconomicFactorStatement): number => a.date.getTime() - b.date.getTime());
+
+        for (let i: number = 0, length: number = statements.length; i < length; ++i) {
+            const statement: ApolloEconomicFactorStatement = statements[i];
+            const previousStatement: ApolloEconomicFactorStatement | undefined = statements[i - 1];
+            const nextStatement: ApolloEconomicFactorStatement | undefined = statements[i + 1];
+
+            if (previousStatement) {
+                statement.previousStatement = previousStatement;
+            }
+
+            if (nextStatement) {
+                statement.nextStatement = nextStatement;
+            }
+        }
 
         try {
             browserTab.close();
@@ -85,9 +87,10 @@ const { addParser, } = ApolloEconomicFactorParser;
             // Silence is golden
         }
 
-        return sanitizedStatementData;
+        return statements;
     }
 
+    // Used to convert a statement value to a native Number type
     function normalizeStatementValue (value: string): number {
         let normalizedValue: number = Number(value.replace(",", "."));
 
@@ -123,5 +126,19 @@ const { addParser, } = ApolloEconomicFactorParser;
 
         return normalizedValue;
     }
+
+    // Used to convert the statement date to a native Date type
+    function normalizeStatementDate (plainDate: string): Date {
+        const parts: string[] = plainDate.trim().split(" ");
+        const leftParts: string[] = parts[0].split("-");
+        const rightParts: string[] = parts[1].split(":");
+
+        return new Date(Date.UTC(
+            Number(leftParts[0]), Number(leftParts[1]) - 1, Number(leftParts[2]),
+            Number(rightParts[0]), Number(rightParts[1]), Number(rightParts[2])
+        ));
+    }
+
+    addParser("Investing.com", getStatements);
 })();
 // </parsers>

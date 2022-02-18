@@ -1,7 +1,7 @@
 {
     "name": "@reiryoku/apollo",
     "version": "1.0.0",
-    "description": "A JavaScript macroeconomic data aggregator",
+    "description": "A JavaScript library to get real-time economic data",
     "license": "MIT",
     "homepage": "https://github.com/Reiryoku-Technologies/Apollo",
     "bugs": {
@@ -29,7 +29,8 @@
         "src"
     ],
     "dependencies": {
-        "puppeteer": "^13.3.1"
+        "puppeteer": "^13.3.1",
+        "node-schedule": "^2.1.0"
     },
     "devDependencies": {
         "@reiryoku/eslint-config-reiryoku": "^1.0.0",
