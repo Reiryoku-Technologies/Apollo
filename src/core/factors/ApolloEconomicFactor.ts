@@ -1,8 +1,6 @@
-import { ApolloEconomicFactorStatement } from "#factors/ApolloEconomicFactorStatement";
 import { ApolloEconomicFactorParameters } from "#factors/ApolloEconomicFactorParameters";
-import { IApolloEconomicFactor } from "#factors/IApolloEconomicFactor";
 
-export abstract class ApolloEconomicFactor {
+export class ApolloEconomicFactor {
     readonly #name: string;
     readonly #affectedAssets: string[];
 
@@ -18,17 +16,6 @@ export abstract class ApolloEconomicFactor {
     public get affectedAssets (): string[] {
         return [ ...this.#affectedAssets, ];
     }
-
-    public async getLastStatement (): Promise<ApolloEconomicFactorStatement> {
-        const declarations: ApolloEconomicFactorStatement[] = await this.getStatements();
-        const length: number = declarations.length;
-
-        return declarations[length - 1] as ApolloEconomicFactorStatement;
-    }
-
-    public abstract getStatements (): Promise<ApolloEconomicFactorStatement[]>;
-
-    public abstract getPendingStatement (): Promise<ApolloEconomicFactorStatement[]>;
 
     static #installedFactors: Map<string, ApolloEconomicFactor> = new Map();
 
@@ -47,8 +34,4 @@ export abstract class ApolloEconomicFactor {
 
         return factors;
     }
-}
-
-export function addFactor (factor: IApolloEconomicFactor): void {
-
 }

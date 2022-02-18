@@ -18,7 +18,15 @@ usNonFarmPayrolls.on("statement", (statement) => {
 ```
 
 ## Supported economic factors
-| Name                          | Id                        | Format                    | Source/s              |
-| -----------                   | -----------               | -----------               | -----------           |
-| U.S. Non Farm Payrolls        | US::NonFarmPayrolls       | Pure number               | Investing.com         |
-| U.S. Crude Oil Inventories    | US::CrudeOilInventories   | Pure number               | Investing.com         |
+| Name                                  | Id                            | Value type                | Source/s              |
+| -----------                           | -----------                   | -----------               | -----------           |
+| U.S. Non Farm Payrolls (MoM)          | US/NonFarmPayrolls/MoM        | Pure number               | Investing.com         |
+| U.S. Crude Oil Inventories (WoW)      | US/CrudeOilInventories/WoW    | Pure number               | Investing.com         |
+| Eurozone CPI (YoY)                    | Eurozone/CPI/YoY              | Percentage                | Investing.com         |
+| Italy CPI (YoY)                       | Italy/CPI/YoY                 | Percentage                | Investing.com         |
+| Canada Interest Rate CPI (MoM)        | Canada/InterestRate/MoM       | Percentage                | Investing.com         |
+
+### Statements frequency
+`WoW = Week over Week`
+`MoM = Month over Month`
+`YoY = Year over Year`

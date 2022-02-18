@@ -1,10 +1,56 @@
 [
     {
-        "name": "US::NonFarmPayrolls",
+        "name": "US/NonFarmPayrolls/MoM",
         "sources": [
             {
-                "parser": "investing.com",
-                "uri": "https://www.investing.com/economic-calendar/nonfarm-payrolls-227"
+                "parser": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/nonfarm-payrolls-227"
+                }
+            }
+        ]
+    },
+    {
+        "name": "US/CrudeOilInventories/WoW",
+        "sources": [
+            {
+                "parser": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/eia-crude-oil-inventories-75"
+                }
+            }
+        ]
+    },
+    {
+        "name": "Eurozone/CPI/YoY",
+        "sources": [
+            {
+                "parser": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/cpi-68"
+                }
+            }
+        ]
+    },
+    {
+        "name": "Italy/CPI/YoY",
+        "sources": [
+            {
+                "parser": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/italian-cpi-748"
+                }
+            }
+        ]
+    },
+    {
+        "name": "Canada/InterestRate/MoM",
+        "sources": [
+            {
+                "parser": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/interest-rate-decision-166"
+                }
             }
         ]
     }
