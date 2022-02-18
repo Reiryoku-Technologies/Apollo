@@ -1,6 +1,7 @@
 # Apollo
 
-## How to get an economic factor
+## Usage
+### How to get an economic factor
 ```javascript
 const { ApolloEconomicFactor } = require("@reiryoku/apollo");
 
