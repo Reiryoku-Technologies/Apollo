@@ -9,7 +9,7 @@ unemployment rates or interest rates reported by governments or other entities.
 
 
 This library gives its best when used with [Mida](https://github.com/Reiryoku-Technologies/Mida), the JavaScript
-framework to operate in global financial markets, which can be used with Apollo to create expert advisors and
+framework to operate in global financial markets which can be used with Apollo to create expert advisors and
 perform market analysis based on macroeconomic data.
 
 ## Usage
