@@ -1,55 +1,58 @@
-import { ApolloBrowserTab } from "#browsers/ApolloBrowserTab";
-import { ApolloBrowser } from "#browsers/ApolloBrowser";
+import axios from "axios";
+import * as cheerio from "cheerio";
 import { ApolloEconomicFactorDeclaration } from "#factors/ApolloEconomicFactorDeclaration";
+import { GenericObject } from "#utilities/GenericObject";
 
-export class ApolloEconomicFactorParser {
-    static readonly #parsers: Map<string, (...parameters: any[]) => unknown> = new Map();
+export class ApolloEconomicFactorProvider {
+    static readonly #installedProviders: Map<string, (parameters: GenericObject) => Promise<ApolloEconomicFactorDeclaration[]>> = new Map();
 
     private constructor () {
         // Silence is golden
     }
 
-    public static addParser (name: string, procedure: (...parameters: any[]) => unknown): void {
-        ApolloEconomicFactorParser.#parsers.set(name, procedure);
+    public static addProvider (name: string, procedure: (parameters: GenericObject) => Promise<ApolloEconomicFactorDeclaration[]>): void {
+        ApolloEconomicFactorProvider.#installedProviders.set(name, procedure);
     }
 
-    public static async useParser (name: string, uri: string): Promise<any> {
-        // @ts-ignore
-        return ApolloEconomicFactorParser.#parsers.get(name)(uri);
+    public static async useProvider (name: string, parameters: GenericObject = {}): Promise<ApolloEconomicFactorDeclaration[]> {
+        // eslint-disable-next-line max-len
+        const procedure: ((parameters: GenericObject) => Promise<ApolloEconomicFactorDeclaration[]>) | undefined = ApolloEconomicFactorProvider.#installedProviders.get(name);
+
+        if (!procedure) {
+            throw new Error("Unknown provider");
+        }
+
+        return procedure(parameters);
     }
 }
 
-const { addParser, } = ApolloEconomicFactorParser;
+const { addProvider, } = ApolloEconomicFactorProvider;
 
-// <parsers>
-// Parser for Investing.com
+// <providers>
+// Provider: Investing.com
 ((): void => {
     // eslint-disable-next-line max-lines-per-function
-    async function getDeclarations (uri: string): Promise<any> {
-        const historyTabSelector: string = ".historyTab";
-        const browserTab: ApolloBrowserTab = await ApolloBrowser.openTab();
+    async function getDeclarations ({ uri, }: GenericObject): Promise<ApolloEconomicFactorDeclaration[]> {
         const declarations: ApolloEconomicFactorDeclaration[] = [];
+        const $ = cheerio.load((await axios.get(uri)).data);
 
-        await browserTab.goto(uri);
-        await browserTab.waitForSelector(historyTabSelector);
-
-        const plainDeclarations: any[] = await browserTab.evaluate((): any[] => {
+        const plainDeclarations: any[] = ((): any[] => {
             const declarationsSelector: string = ".historyTab > table > tbody > tr";
             const plainDeclarations: any[] = [];
 
-            for (const declarationNode of window.document.querySelectorAll(declarationsSelector)) {
-                const plainDate: string = declarationNode.getAttribute("event_timestamp") as string;
-                const declarationNodes: HTMLElement[] = [ ...declarationNode.querySelectorAll("td"), ];
+            $(declarationsSelector).each((index, declarationNode) => {
+                const plainDate: string = $(declarationNode).attr("event_timestamp") as string;
+                const declarationNodes: any = $(declarationNode).children("td");
 
                 plainDeclarations.push({
-                    plainDate,
-                    plainActualValue: declarationNodes[2].innerText.trim(),
-                    plainForecastValue: declarationNodes[3].innerText.trim(),
+                    plainDate: plainDate.trim(),
+                    plainActualValue: $(declarationNodes[2]).text().trim(),
+                    plainForecastValue: $(declarationNodes[3]).text().trim(),
                 });
-            }
+            });
 
             return plainDeclarations;
-        });
+        })();
 
         for (const plainDeclaration of plainDeclarations) {
             const plainActualValue: string = plainDeclaration.plainActualValue;
@@ -76,13 +79,6 @@ const { addParser, } = ApolloEconomicFactorParser;
             if (nextDeclaration) {
                 declaration.nextDeclaration = nextDeclaration;
             }
-        }
-
-        try {
-            browserTab.close();
-        }
-        catch {
-            // Silence is golden
         }
 
         return declarations;
@@ -137,6 +133,6 @@ const { addParser, } = ApolloEconomicFactorParser;
         ));
     }
 
-    addParser("Investing.com", getDeclarations);
+    addProvider("Investing.com", getDeclarations);
 })();
-// </parsers>
+// </providers>

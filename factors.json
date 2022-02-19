@@ -1,9 +1,9 @@
 [
     {
         "id": "US/NonFarmPayrolls/MoM",
-        "sources": [
+        "providers": [
             {
-                "parser": "Investing.com",
+                "name": "Investing.com",
                 "parameters": {
                     "uri": "https://www.investing.com/economic-calendar/nonfarm-payrolls-227"
                 }
@@ -12,9 +12,9 @@
     },
     {
         "id": "US/CrudeOilInventories/WoW",
-        "sources": [
+        "providers": [
             {
-                "parser": "Investing.com",
+                "name": "Investing.com",
                 "parameters": {
                     "uri": "https://www.investing.com/economic-calendar/eia-crude-oil-inventories-75"
                 }
@@ -23,9 +23,9 @@
     },
     {
         "id": "Eurozone/CPI/YoY",
-        "sources": [
+        "providers": [
             {
-                "parser": "Investing.com",
+                "name": "Investing.com",
                 "parameters": {
                     "uri": "https://www.investing.com/economic-calendar/cpi-68"
                 }
@@ -34,9 +34,9 @@
     },
     {
         "id": "Italy/CPI/YoY",
-        "sources": [
+        "providers": [
             {
-                "parser": "Investing.com",
+                "name": "Investing.com",
                 "parameters": {
                     "uri": "https://www.investing.com/economic-calendar/italian-cpi-748"
                 }
@@ -45,9 +45,9 @@
     },
     {
         "id": "Canada/InterestRate/MoM",
-        "sources": [
+        "providers": [
             {
-                "parser": "Investing.com",
+                "name": "Investing.com",
                 "parameters": {
                     "uri": "https://www.investing.com/economic-calendar/interest-rate-decision-166"
                 }
@@ -56,9 +56,9 @@
     },
     {
         "id": "Japan/CPI/YoY",
-        "sources": [
+        "providers": [
             {
-                "parser": "Investing.com",
+                "name": "Investing.com",
                 "parameters": {
                     "uri": "https://www.investing.com/economic-calendar/national-cpi-992"
                 }

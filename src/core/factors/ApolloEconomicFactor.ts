@@ -1,12 +1,26 @@
 import { ApolloEconomicFactorParameters } from "#factors/ApolloEconomicFactorParameters";
+import { GenericObject } from "#utilities/GenericObject";
 
 export class ApolloEconomicFactor {
+    readonly #id: string;
     readonly #name: string;
     readonly #affectedAssets: string[];
+    readonly #providers: GenericObject[];
 
-    protected constructor ({ name, affectedAssets, }: ApolloEconomicFactorParameters) {
+    protected constructor ({
+        id,
+        name,
+        affectedAssets,
+        providers,
+    }: ApolloEconomicFactorParameters) {
+        this.#id = id;
         this.#name = name;
         this.#affectedAssets = affectedAssets ?? [];
+        this.#providers = providers;
+    }
+
+    public get id (): string {
+        return this.#id;
     }
 
     public get name (): string {
@@ -19,19 +33,11 @@ export class ApolloEconomicFactor {
 
     static #installedFactors: Map<string, ApolloEconomicFactor> = new Map();
 
-    public static add (name: string, factor: ApolloEconomicFactor): void {
-
+    public static add (id: string, factor: ApolloEconomicFactor): void {
+        this.#installedFactors.set(id, factor);
     }
 
-    public static getByGroupName (name: string): ApolloEconomicFactor[] {
-        const factors: ApolloEconomicFactor[] = [];
-
-        for (const factor of this.#installedFactors.values()) {
-            if (factor.name.startsWith(`${name}::`)) {
-                factors.push(factor);
-            }
-        }
-
-        return factors;
+    public static getById (id: string): ApolloEconomicFactor | undefined {
+        return this.#installedFactors.get(id);
     }
 }
