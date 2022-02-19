@@ -3,7 +3,7 @@ Apollo is a JavaScript library to get real-time economic declarations such as in
 unemployment rates or interest rates reported by governments or other entities.
 <br><br>
 This library gives its best when used with [Mida](https://github.com/Reiryoku-Technologies/Mida), the JavaScript
-framework to operate in global financial markets, Apollo can be used in creation of expert advisors and
+framework to operate in global financial markets, Apollo can be used for creation of expert advisors and
 market analysis based on macro economic data.
 
 ## Usage
