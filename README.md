@@ -1,7 +1,13 @@
 # Apollo
+[![Image](https://img.shields.io/npm/v/@reiryoku/apollo)](https://www.npmjs.com/package/@reiryoku/apollo)
+[![Image](https://img.shields.io/npm/l/@reiryoku/apollo)](LICENSE)
+[![Image](https://img.shields.io/discord/780532638846287904?label=community)](https://discord.gg/cKyWTUsr3q)
+<br>
+
 Apollo is a JavaScript library to get real-time economic declarations such as inflation rates,
 unemployment rates or interest rates reported by governments or other entities.
-<br><br>
+
+
 This library gives its best when used with [Mida](https://github.com/Reiryoku-Technologies/Mida), the JavaScript
 framework to operate in global financial markets, which can be used with Apollo to create expert advisors and
 perform market analysis based on macroeconomic data.
