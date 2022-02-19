@@ -44,9 +44,8 @@ export type ApolloEconomicFactorDeclaration = {
 ## Providers
 Apollo is desgined to support multiple data providers, for now all the data is kindly offered by [Investing.com](https://www.investing.com).
 
-Special thanks to Investing.com
 <br><br>
 <p align="center">
-    <img src="images/providers/investing.com.svg" alt="Investing.com" width="352px">
+    <img src="images/providers/investing.com.svg" alt="Investing.com" width="252px">
 </p>
 <br><br>
