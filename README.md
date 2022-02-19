@@ -41,6 +41,14 @@ export type ApolloEconomicFactorDeclaration = {
 - MoM means month over month
 - YoY means year over year
 
+## How to contribute
+### How to add a new economic provider
+To add a new economic factor you need to edit the `factors.json` file and include a new definition.
+- Visit https://www.investing.com/economic-calendar/
+- Choose the economic factor to add, then open its link
+- Add a new definition to `factors.json` according to the existent format, include the URL of the economic factor
+- Done! Create a pull request
+
 ## Providers
 Apollo is desgined to support multiple data providers, for now all the data is kindly offered by [Investing.com](https://www.investing.com).
 
