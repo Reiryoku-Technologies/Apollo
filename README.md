@@ -46,6 +46,6 @@ Apollo is desgined to support multiple data providers, for now all the data is k
 
 <br><br>
 <p align="center">
-    <img src="images/providers/investing.com.svg" alt="Investing.com" width="252px">
+    <img src="images/providers/investing.com.svg" alt="Investing.com" width="200px">
 </p>
 <br><br>
