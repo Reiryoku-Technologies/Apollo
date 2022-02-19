@@ -4,11 +4,13 @@ import { ApolloEconomicFactorDeclaration } from "#factors/ApolloEconomicFactorDe
 import { GenericObject } from "#utilities/GenericObject";
 
 export class ApolloEconomicFactorProvider {
-    static readonly #installedProviders: Map<string, (parameters: GenericObject) => Promise<ApolloEconomicFactorDeclaration[]>> = new Map();
-
     private constructor () {
         // Silence is golden
     }
+
+    /* *** *** *** Reiryoku Technologies *** *** *** */
+
+    static readonly #installedProviders: Map<string, (parameters: GenericObject) => Promise<ApolloEconomicFactorDeclaration[]>> = new Map();
 
     public static addProvider (name: string, procedure: (parameters: GenericObject) => Promise<ApolloEconomicFactorDeclaration[]>): void {
         ApolloEconomicFactorProvider.#installedProviders.set(name, procedure);
