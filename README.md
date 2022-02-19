@@ -12,6 +12,17 @@ console.log(`Japan inflation rate is ${lastDeclaration.actualValue}%`);
 console.log(`The last declaration was made on ${lastDeclaration.date}`);
 ```
 
+### Economic factor type
+```typescript
+export type ApolloEconomicFactorDeclaration = {
+    date: Date;
+    previousDeclaration?: ApolloEconomicFactorDeclaration;
+    nextDeclaration?: ApolloEconomicFactorDeclaration;
+    actualValue?: number;
+    forecastValue?: number;
+};
+```
+
 ## Supported economic factors
 | Name                                  | Id                            | Value type                | Source/s              |
 | -----------                           | -----------                   | -----------               | -----------           |

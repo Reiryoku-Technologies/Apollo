@@ -1,5 +1,4 @@
 import { ApolloEconomicFactor } from "#factors/ApolloEconomicFactor";
-import * as fs from "fs";
 import { GenericObject } from "#utilities/GenericObject";
 
 class Apollo {
@@ -8,7 +7,7 @@ class Apollo {
     }
 }
 
-JSON.parse(fs.readFileSync("../../factors.json", { encoding: "UTF-8", })).forEach((plainFactor: GenericObject) => {
+require("../../../factors.json").forEach((plainFactor: GenericObject) => {
     ApolloEconomicFactor.add(plainFactor.id, new ApolloEconomicFactor({
         id: plainFactor.id,
         name: "",
