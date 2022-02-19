@@ -1,7 +1,7 @@
 {
     "name": "@reiryoku/apollo",
     "version": "1.0.0",
-    "description": "A JavaScript library to get real-time economic data",
+    "description": "A JavaScript library to get real-time economic declarations",
     "license": "MIT",
     "homepage": "https://github.com/Reiryoku-Technologies/Apollo",
     "bugs": {

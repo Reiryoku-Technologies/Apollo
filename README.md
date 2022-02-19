@@ -1,7 +1,10 @@
 # Apollo
+Apollo is a JavaScript library to get real-time economic declarations such as inflation rates,
+unemployment rates or interest rates reported by governments or other entities.
 
 ## Usage
-### How to get an economic factor
+### How to get an economic factor and its declarations
+First you have to choose an economic factor and then request its declarations
 ```javascript
 const { ApolloEconomicFactor } = require("@reiryoku/apollo");
 
@@ -12,7 +15,7 @@ console.log(`Japan inflation rate is ${lastDeclaration.actualValue}%`);
 console.log(`The last declaration was made on ${lastDeclaration.date}`);
 ```
 
-### Economic factor type
+### Economic declaration type
 ```typescript
 export type ApolloEconomicFactorDeclaration = {
     date: Date;
@@ -37,3 +40,13 @@ export type ApolloEconomicFactorDeclaration = {
 - WoW means week over week
 - MoM means month over month
 - YoY means year over year
+
+## Providers
+Apollo is desgined to support multiple data providers, for now all the data is kindly offered by [Investing.com](https://www.investing.com).
+
+Special thanks to Investing.com
+<br><br>
+<p align="center">
+    <img src="images/providers/investing.com.svg" alt="Investing.com" width="352px">
+</p>
+<br><br>
