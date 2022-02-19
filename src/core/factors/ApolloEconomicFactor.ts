@@ -9,7 +9,7 @@ export class ApolloEconomicFactor {
     readonly #affectedAssets: string[];
     readonly #providers: GenericObject[];
 
-    protected constructor ({
+    public constructor ({
         id,
         name,
         affectedAssets,

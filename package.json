@@ -26,7 +26,8 @@
     "files": [
         "build",
         "entry",
-        "src"
+        "src",
+        "factors.json"
     ],
     "dependencies": {
         "axios": "^0.26.0",
