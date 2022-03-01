@@ -53,7 +53,7 @@ export type ApolloEconomicFactorDeclaration = {
 | Japan CPI (YoY)                       | Japan/CPI/YoY                 | Percentage                | Investing.com         |
 | Canada Interest Rate                  | Canada/InterestRate           | Percentage                | Investing.com         |
 
-*Economic factors ids are case sensitive*.
+**Economic factors ids are case sensitive**.
 
 ### Declarations frequency
 - WoW means week over week
