@@ -40,11 +40,20 @@ export type ApolloEconomicFactorDeclaration = {
 | Name                                  | Id                            | Value type                | Source/s              |
 | -----------                           | -----------                   | -----------               | -----------           |
 | U.S. Non Farm Payrolls (MoM)          | US/NonFarmPayrolls/MoM        | Pure number               | Investing.com         |
+| U.S. Interest Rate                    | US/InterestRate               | Percentage                | Investing.com         |
+| U.S. Unemployment Rate                | US/UnemploymentRate/MoM       | Percentage                | Investing.com         |
+| U.S. CPI (YoY)                        | US/CPI/YoY                    | Percentage                | Investing.com         |
+| U.S. Core CPI (MoM)                   | US/CoreCPI/MoM                | Percentage                | Investing.com         |
+| U.S. Core CPI (YoY)                   | US/CoreCPI/YoY                | Percentage                | Investing.com         |
 | U.S. Crude Oil Inventories (WoW)      | US/CrudeOilInventories/WoW    | Pure number               | Investing.com         |
 | Eurozone CPI (YoY)                    | Eurozone/CPI/YoY              | Percentage                | Investing.com         |
+| Eurozone Interest Rate                | Eurozone/InterestRate         | Percentage                | Investing.com         |
 | Italy CPI (YoY)                       | Italy/CPI/YoY                 | Percentage                | Investing.com         |
+| Germany CPI (YoY)                     | Germany/CPI/YoY               | Percentage                | Investing.com         |
 | Japan CPI (YoY)                       | Japan/CPI/YoY                 | Percentage                | Investing.com         |
-| Canada Interest Rate CPI (MoM)        | Canada/InterestRate/MoM       | Percentage                | Investing.com         |
+| Canada Interest Rate                  | Canada/InterestRate           | Percentage                | Investing.com         |
+
+*Economic factors ids are case sensitive*.
 
 ### Declarations frequency
 - WoW means week over week
