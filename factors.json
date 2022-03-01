@@ -11,6 +11,61 @@
         ]
     },
     {
+        "id": "US/UnemploymentRate/MoM",
+        "providers": [
+            {
+                "name": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/unemployment-rate-300"
+                }
+            }
+        ]
+    },
+    {
+        "id": "US/InterestRate",
+        "providers": [
+            {
+                "name": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/interest-rate-decision-168"
+                }
+            }
+        ]
+    },
+    {
+        "id": "US/CPI/YoY",
+        "providers": [
+            {
+                "name": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/cpi-733"
+                }
+            }
+        ]
+    },
+    {
+        "id": "US/CoreCPI/MoM",
+        "providers": [
+            {
+                "name": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/core-cpi-56"
+                }
+            }
+        ]
+    },
+    {
+        "id": "US/CoreCPI/YoY",
+        "providers": [
+            {
+                "name": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/core-cpi-736"
+                }
+            }
+        ]
+    },
+    {
         "id": "US/CrudeOilInventories/WoW",
         "providers": [
             {
@@ -33,6 +88,17 @@
         ]
     },
     {
+        "id": "Eurozone/InterestRate",
+        "providers": [
+            {
+                "name": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/interest-rate-decision-164"
+                }
+            }
+        ]
+    },
+    {
         "id": "Italy/CPI/YoY",
         "providers": [
             {
@@ -44,7 +110,7 @@
         ]
     },
     {
-        "id": "Canada/InterestRate/MoM",
+        "id": "Canada/InterestRate",
         "providers": [
             {
                 "name": "Investing.com",
@@ -61,6 +127,17 @@
                 "name": "Investing.com",
                 "parameters": {
                     "uri": "https://www.investing.com/economic-calendar/national-cpi-992"
+                }
+            }
+        ]
+    },
+    {
+        "id": "Germany/CPI/YoY",
+        "providers": [
+            {
+                "name": "Investing.com",
+                "parameters": {
+                    "uri": "https://www.investing.com/economic-calendar/german-cpi-737"
                 }
             }
         ]
