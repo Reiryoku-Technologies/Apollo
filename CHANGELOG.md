@@ -1,3 +1,5 @@
+2.0.0 - 02-03-2022
+===================
 ### Features
 * **BREAKING** Rename `Canada/InterestRate/MoM` to `Canada/InterestRate` [#1](https://github.com/Reiryoku-Technologies/Apollo/pull/1)
 * Add `US/InterestRate` [#1](https://github.com/Reiryoku-Technologies/Apollo/pull/1)
